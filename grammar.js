@@ -1,9 +1,9 @@
 module.exports = grammar({
-  name: 'YOUR_LANGUAGE_NAME',
-
+  name: 'mojo',
   rules: {
-    // TODO: add the actual grammar rules
-    source_file: $ => 'hello'
+    source_file: $ => 'hello',
+    _statements: repeat1($._statement),
+    _statement: choice($._compound_stmt,$._simple_stmt)
   }
 });
 
