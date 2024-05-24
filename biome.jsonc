@@ -1,0 +1,41 @@
+{
+  "$schema": "https://biomejs.dev/schemas/1.7.3/schema.json",
+  "organizeImports": {
+    "enabled": true
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "all": true,
+      "style": {
+        "all": false
+      },
+      "nursery": {
+        "all": true
+      }
+    }
+  },
+  "javascript": {
+    "globals": [
+      "$",
+      "grammar",
+      "choice",
+      "seq",
+      "repeat",
+      "repeat1",
+      "optional",
+      "prec",
+      "prec.left",
+      "prec.right",
+      "prec.dynamic",
+      "token",
+      "token.immediate",
+      "alias",
+      "field"
+    ]
+  }
+}
