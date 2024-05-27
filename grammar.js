@@ -60,6 +60,70 @@ module.exports = grammar({
         $.global_stmt,
         $.nonlocal_stmt,
       ),
+    //       assignment: $ => choice(
+    //     $.NAME ':' expression ['=' annotated_rhs ]
+    //     | ('(' single_target ')'
+    //          | single_subscript_attribute_target) ':' expression ['=' annotated_rhs ]
+    //     | (star_targets '=' )+ (yield_expr | star_expressions) !'=' [TYPE_COMMENT]
+    //     | single_target augassign ~ (yield_expr | star_expressions)
+    // ),
+    // EXPRESSIONS
+    expressions: ($) =>
+      choice(
+        seq($._expression, repeat1(seq(",", $._expression))),
+        optional(","),
+        seq($._expression, ","),
+        seq($._expression),
+      ),
+    expression: ($) =>
+      choice(
+        seq($._disjunction, "if", $._disjunction, "else", $.expression),
+        $._disjunction,
+        $._lambdef,
+      ),
+    yield_expr: ($) =>
+      choice(
+        seq("yield", "from", $.expression),
+        seq("yield", optional($._star_expressions)),
+      ),
+    _star_expressions: ($) =>
+      choice(
+        seq(
+          $._star_expression,
+          repeat1(seq(",", $._star_expression)),
+          optional(","),
+        ),
+        seq($._star_expression, ","),
+        $._star_expression,
+      ),
+    _star_expression: ($) => choice(seq("*", $._bitwise_or), $.expression),
+    _star_named_expressions: ($) =>
+      seq(
+        $._star_named_expression,
+        repeat(seq(",", $._star_named_expression)),
+        optional(","),
+      ),
+    _star_named_expression: ($) =>
+      choice(seq("*", $._bitwise_or), $._named_expression),
+    // assignment_expression:$ => c
+    //     | NAME ':=' ~ expression
+
+    // named_expression:
+    //     | assignment_expression
+    //     | expression !':='
+
+    // disjunction:
+    //     | conjunction ('or' conjunction )+
+    //     | conjunction
+
+    // conjunction:
+    //     | inversion ('and' inversion )+
+    //     | inversion
+
+    // inversion:
+    //     | 'not' inversion
+    //     | comparison
+
     // SIMPLE STATEMENTS
     _compound_stmt: ($) =>
       choice(
